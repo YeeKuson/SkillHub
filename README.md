@@ -10,7 +10,9 @@
   <img src="docs/wechat-hmpunk.jpg" alt="微信公众号：海绵朋克" width="220" />
 </p>
 
-**SkillHub** 是一个跨 AI coding agent 的「扩展资源中转台」：把 skills、MCP 收敛到本机一个中心库，再分发同步到多个 agent —— **ZCode、Claude Code、Codex、WorkBuddy、豆包（DoubaoWork）**。
+**SkillHub** 是一个跨 AI coding agent 的「扩展资源中转台」：把 skills、MCP 收敛到本机一个中心库，再分发同步到多个 agent —— **ZCode、Claude Code、Codex、WorkBuddy、Kimi Code、豆包（DoubaoWork）**。
+
+> ⚠️ 其中 **Kimi Code** 为本版本发布当日临时补充的适配（skills 经 `~/.agents/skills` 共享层分发，由 Kimi 内置网关自动收集），成熟度暂不及其他 agent；MCP 需在 Kimi 应用内配置。
 
 一个桌面应用，管住所有 agent 的扩展资源：不用再手动复制粘贴 skill 目录、不用逐个 agent 改配置。
 
@@ -57,7 +59,9 @@ MCP 的跨端同步受各 agent 机制限制，**不如 skill 即装即用**：�
 
 ## English
 
-**SkillHub** is a desktop hub for AI coding agents: it consolidates skills and MCP servers into one local library, then syncs them across **ZCode, Claude Code, Codex, WorkBuddy and DoubaoWork**.
+**SkillHub** is a desktop hub for AI coding agents: it consolidates skills and MCP servers into one local library, then syncs them across **ZCode, Claude Code, Codex, WorkBuddy, Kimi Code and DoubaoWork**.
+
+> ⚠️ **Kimi Code** support was added on this release day as a provisional adapter (skills are distributed via the `~/.agents/skills` shared layer, collected automatically by Kimi's built-in gateway); it is less mature than the other agents, and MCP must be configured inside the Kimi app.
 
 No more copying skill folders by hand or editing each agent's config — manage everything from one place with per-agent toggles.
 
