@@ -117,6 +117,11 @@ const DICT: Record<string, { zh: string; en: string }> = {
   "detail.body.none": { zh: "（该 skill 的 SKILL.md 没有正文说明）", en: "(this skill's SKILL.md has no body)" },
   "field.timeout": { zh: "超时", en: "Timeout" },
   "field.args": { zh: "参数", en: "Args" },
+  "detail.testTimeout": {
+    zh: "连接测试超时（9 秒无响应）——服务可能不可达或过慢；CLI 进程仍在后台完成检测，可稍后在日志查看。",
+    en: "Connection test timed out (no response in 9s) — the server may be unreachable or slow; the CLI probe finishes in the background, check the log later.",
+  },
+  "detail.testFailed": { zh: "测试失败", en: "Test failed" },
   "foreign.all": { zh: "全部收编", en: "Adopt all" },
   "foreign.adopt": { zh: "收编", en: "Adopt" },
   "foreign.has": { zh: "有 {n} 个未入库", en: "{n} not in hub" },
@@ -147,21 +152,59 @@ export function langLabel(): string {
 }
 
 /** 预填/内置资源的双语简介：界面语言切换时联动显示。
- *  仅覆盖随包分发的资源；第三方 skill/MCP 的描述是作者写的单语言内容，如实显示原文（不联网翻译）。 */
+ *  仅覆盖已知资源；未收录的资源如实显示作者原文（不联网翻译，守隐私承诺）。 */
 const DESC_DB: Record<string, { zh: string; en: string }> = {
   "architecture-first-coding": {
-    zh: "消除 AI 编程中的人机认知分歧。从零写代码：引导 AI 通过提问帮人类把想法表达清楚，边写边对齐认知。接手已有项目：检查确定性并自记，用大白话给人类解释项目，修改时边补约束边保持对齐。",
-    en: "Eliminates the human-AI understanding gap in coding. Greenfield: guides the AI to ask questions that surface your intent, aligning as it writes. Brownfield: audits determinism, explains the project in plain language, and keeps alignment by adding constraints while modifying.",
+    zh: "消除 AI 编程中的人机认知分歧。从零写代码：引导 AI 通过提问帮人类把想法表达清楚，边写边对齐认知。接手已有项目：检查确定性并自记，用大白话给人类解释项目，修改时边补约束边保持对齐。Load when: 新建项目、阅读陌生代码、重构、加功能、或需要确保人和 AI 理解一致时。",
+    en: "Eliminates the human-AI understanding gap in coding. Greenfield: the AI asks questions to surface your intent and stays aligned while writing. Brownfield: audits determinism, explains the project in plain language, and keeps alignment by adding constraints while modifying. Load when: new projects, reading unfamiliar code, refactoring, adding features, or whenever human-AI alignment matters.",
   },
   "skill-mentor": {
-    zh: "评估、审计、诊断、讲解和优化 Agent Skill，并检查 Skill 消费目录的合法性、冲突、断链与安全风险。用户提到快速检测、简单看看、校验、培养、优化、分析、深度审计、全面重构、Skill 评分、Skill 安全、Skill 调试或 Skill 治理时使用。",
-    en: "Evaluates, audits, diagnoses, explains and optimizes Agent Skills, and checks the consumer skill directories for validity, conflicts, broken links and security risks. Use when the user mentions quick checks, validation, mentoring, scoring, security, debugging or governance of skills.",
+    zh: "评估、审计、诊断、讲解和优化 Agent Skill，并检查 Skill 消费目录的合法性、冲突、断链与安全风险。用户提到快速检测、简单看看、校验、培养、优化、分析、深度审计、全面重构、Skill 评分、Skill 安全、Skill 调试或 Skill 治理时使用。也用于创建或改进 Skill 质量规范。",
+    en: "Evaluates, audits, diagnoses, explains and optimizes Agent Skills, and checks consumer skill directories for validity, conflicts, broken links and security risks. Use when the user mentions quick checks, validation, mentoring, optimization, deep audits, refactoring, skill scoring, security, debugging or governance. Also for creating or improving skill quality specs.",
   },
   "html-exhibition": {
-    zh: "把项目、产品、想法、研究成果或复盘内容制作成可直接打开的 HTML 演示网页或现场幻灯片。提到「做演示、项目展示、网页汇报、HTML slides、答辩、路演、翻页笔、演讲者模式」时使用。先理解事实并组织叙事，再按场合选择滚动阅读或逐页演讲、单文件或模块化结构、默认主题或 34 套设计模板。",
-    en: "Turns projects, products, ideas, research or retrospectives into self-contained HTML presentation pages or live slide decks. Use for demos, project showcases, HTML slides, defenses, roadshows, presenter mode. Understands the facts first, then picks scroll vs stage delivery, single-file vs modular structure, and one of 34 design templates.",
+    zh: "把项目、产品、想法、研究成果或复盘内容制作成可直接打开的 HTML 演示网页或现场幻灯片。用户提到“做演示、项目展示、网页汇报、HTML slides、答辩、路演、翻页笔、演讲者模式、把项目讲出来”时使用。先理解事实并组织叙事，再按场合选择滚动阅读或逐页演讲、单文件或模块化结构、默认品牌主题或 34 套设计模板。不要用于只需普通配色建议、静态平面插画、原生移动端视觉稿或与该设计语言无关的通用前端任务。",
+    en: "Turns projects, products, ideas, research or retrospectives into self-contained HTML presentation pages or live slide decks. Use for demos, project showcases, web reports, HTML slides, defenses, roadshows, clickers, presenter mode. Understands the facts and narrative first, then picks scroll vs stage delivery, single-file vs modular structure, and the default theme or one of 34 design templates. Not for plain color advice, static illustrations, native mobile mockups, or generic frontend tasks unrelated to this design language.",
+  },
+  "lingdong-skill": {
+    zh: "从用户给定的主色或现有品牌色出发，创建、改造并验证“灵动”前端设计系统、网页界面和可交互 HTML 原型，强调暖色毛玻璃、状态连续变形、分级反馈、主色派生阴影、无障碍与响应式。用户提到灵动风格、动态岛式任务胶囊、任务进度连续性、从主色生成设计 token、完整单页 HTML 或将这些规则接入现有前端项目时使用。不要用于只需普通配色建议、静态平面插画、原生移动端视觉稿或与该设计语言无关的通用前端任务。",
+    en: "Creates, retrofits and validates a “Lingdong” (dynamic-glass) frontend design system, web UI and interactive HTML prototypes from a brand color, emphasizing warm glassmorphism, continuous state morphing, tiered feedback, primary-derived shadows, accessibility and responsiveness. Use for dynamic-glass styling, dynamic-island task capsules, task progress continuity, design tokens from a primary color, full single-page HTML, or applying these rules to an existing frontend.",
+  },
+  "rookie-skill": {
+    zh: "让 LLM 切换到「纯新人 / 小白视角」去思考、回答和写作。面向第一次使用 agent 的小白：不假设前置知识、说人话、优先让 agent 替用户动手、渐进式深度、暴露真实卡点。不自动触发——用户明确说出「小白视角 / 从 0 开始 / 当我是小白」等提示词时启用，「退出新手视角」时停用。",
+    en: "Switches the LLM into a “complete beginner” perspective for thinking, answering and writing. For first-time agent users: no prior knowledge assumed, plain language, let the agent do the work, progressive depth, surface real stumbling blocks. Not auto-triggered — enabled by explicit cues like “beginner mode / start from zero”, disabled by “expert mode / normal answer”.",
+  },
+  "algorithmic-art": {
+    zh: "使用 p5.js 进行带种子随机与交互式参数探索的算法艺术创作。当用户需要用代码创作艺术、生成艺术、算法艺术、流场或粒子系统时使用。创作原创算法艺术而非复制现有艺术家作品，以避免版权问题。",
+    en: "Creating algorithmic art using p5.js with seeded randomness and interactive parameter exploration. Use when users request creating art using code, generative art, algorithmic art, flow fields, or particle systems. Create original algorithmic art rather than copying existing artists' work to avoid copyright violations.",
+  },
+  "training-ci-curves": {
+    zh: "从重复的机器学习或强化学习实验中生成带置信区间的论文级训练曲线图。适用于从 TensorBoard 日志、CSV/JSON/NumPy 文件、混合运行目录等实验输出中提取指标、对齐多次运行、计算均值与置信区间，并绘制论文可直接使用的 reward、accuracy、TFCR、loss 等训练曲线。",
+    en: "Create publication-style training curve figures with confidence intervals from repeated machine learning or reinforcement learning runs. Use when Codex needs to extract training metrics from TensorBoard logs, CSV/JSON/NumPy files, mixed run folders, or other experiment outputs, align repeated runs, compute mean and confidence intervals, and plot paper-ready reward, accuracy, TFCR, loss, or similar training curves.",
+  },
+  "scys-mcp": {
+    zh: "生财有术（SCYS）社区 MCP 服务——提供社区内容检索与查询能力。",
+    en: "SCYS community MCP server — community content search and lookup.",
+  },
+  deepwiki: {
+    zh: "DeepWiki — 为 GitHub 仓库生成 AI 文档，支持结构化目录、内容查看与仓库问答。",
+    en: "DeepWiki — AI-powered documentation for GitHub repositories: wiki structure, contents, and Q&A.",
+  },
+  context7: {
+    zh: "Context7 — 库/框架的最新版本文档查询 MCP（经 npx 本地运行）。",
+    en: "Context7 — up-to-date library/framework documentation MCP (runs locally via npx).",
   },
 };
+
+/** MCP 兜底描述：无内置译文且无有效描述时，按类型生成双语结构化说明 */
+export function mcpFallbackDesc(name: string, fallback: string, transport: string): string {
+  const entry = DESC_DB[name];
+  if (entry) return entry[currentLang()];
+  if (fallback && !/^(来自|from )/.test(fallback)) return fallback; // 用户自填的有效描述
+  const zh = transport === "stdio" ? "本机命令行 MCP 服务" : transport.toUpperCase() + " 型 MCP 服务";
+  const en = transport === "stdio" ? "Local command-line MCP server" : transport.toUpperCase() + " MCP server";
+  return currentLang() === "zh" ? zh : en;
+}
 
 /** 资源简介的双语覆盖：有内置译文按界面语言返回；没有则返回 null（调用方显示数据原文） */
 export function resourceDesc(name: string, fallback: string): string {

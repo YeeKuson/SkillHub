@@ -1,6 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
 import { open } from "@tauri-apps/plugin-dialog";
-import { t, applyI18nStatic, toggleLabel, setLang, currentLang, resourceDesc } from "./i18n";
+import { t, applyI18nStatic, toggleLabel, setLang, currentLang, resourceDesc, mcpFallbackDesc } from "./i18n";
 
 interface AgentInfo {
   id: string;
@@ -271,8 +271,13 @@ function renderDetail(): void {
         : { list: data!.plugins.agents.filter((a) => a.installed !== false), states: (row as PluginRow).agents };
 
   const key = kind === "plugin" ? (row as PluginRow).id : (row as SkillRow | McpRow).name;
-  const desc = kind === "plugin" ? (row as PluginRow).description ?? "" : (row as SkillRow | McpRow).description ?? "";
-  const descShown = kind === "plugin" ? desc : resourceDesc(key, desc);
+  const rawDesc = kind === "plugin" ? (row as PluginRow).description ?? "" : (row as SkillRow | McpRow).description ?? "";
+  const descShown =
+    kind === "mcp"
+      ? mcpFallbackDesc(key, rawDesc, (row as McpRow).transport)
+      : kind === "skill"
+        ? resourceDesc(key, rawDesc)
+        : rawDesc;
   $("#detail-mask").style.setProperty("--accent-h", String(accentHue(key)));
   $("#detail-avatar").textContent = pickEmoji(key, descShown);
 
@@ -369,7 +374,7 @@ function mcpBubble(s: McpRow, agents: AgentInfo[]): HTMLElement {
   card.setAttribute("role", "button");
   card.style.setProperty("--accent-h", String(accentHue(s.name)));
   const target = s.transport === "stdio" ? s.command ?? "" : s.url ?? "";
-  const descShown = resourceDesc(s.name, s.description ?? "");
+  const descShown = mcpFallbackDesc(s.name, s.description ?? "", s.transport);
   card.innerHTML = `
     <div class="bubble-head">
       <span class="bubble-avatar">${pickEmoji(s.name, descShown || target)}</span>
@@ -599,7 +604,8 @@ async function removeGeneric(kind: "skill" | "mcp", name: string): Promise<void>
   setBusy(false);
 }
 
-/** 矩阵格子的滑动开关：未安装=安装并启用；启用中=停用；已禁用=恢复启用 */
+/** 矩阵格子的滑动开关：未安装=安装并启用；启用中=停用；已禁用=恢复启用。
+ *  注意：切换期间允许用户关闭详情浮层（关浮层不取消写操作，结果进日志）。 */
 async function toggleCellAction(ds: DOMStringMap): Promise<void> {
   const kind = (ds.kind ?? "skill") as "skill" | "mcp";
   const name = ds.name ?? "";
@@ -861,28 +867,37 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 
   // Agent 管理面板：开关 + 定位操作 + 面板内刷新
-  // 详情浮层：MCP 连通性测试
+  // 详情浮层：MCP 连通性测试——按钮级禁用而非全局锁，测试期间关闭浮层与背景点击保持可用
   $("#detail-test").addEventListener("click", async () => {
-    if (!detailOpen || detailOpen.kind !== "mcp" || document.body.classList.contains("busy")) return;
+    if (!detailOpen || detailOpen.kind !== "mcp") return;
     const name = detailOpen.name;
     const el = $("#detail-test-result");
+    const testBtn = $("#detail-test") as HTMLButtonElement;
+    if (testBtn.disabled) return;
+    testBtn.disabled = true;
     el.hidden = false;
     el.className = "test-result";
-    el.textContent = "正在握手…";
-    setBusy(true);
+    el.textContent = t("detail.serverLoading");
+    const startedAt = Date.now();
     try {
-      const raw = await runCli(["mcp", "test", name, "--json"]);
-      const r = tryParse<{ results: { ok: boolean; message: string }[] }>(raw);
-      const msg = r?.results[0]?.message ?? raw;
+      const raw = await Promise.race([
+        runCli(["mcp", "test", name, "--json"]),
+        new Promise<string>((resolve) => setTimeout(() => resolve(""), 9000)), // 超时先恢复 UI，CLI 进程自行结束
+      ]);
+      const r = tryParse<{ results: { ok: boolean; message: string }[] }>(raw ?? "");
+      const msg = r?.results[0]?.message ?? t("detail.testTimeout");
       const ok = r?.results[0]?.ok === true;
       log(`[${name}] ${msg}`);
+      if (detailOpen?.name !== name) return; // 测试期间浮层已关闭/切换：结果仅记日志
       el.className = `test-result ${ok ? "ok" : "no"}`;
       el.textContent = msg;
     } catch (err) {
       el.className = "test-result no";
-      el.textContent = `测试失败: ${err}`;
+      el.textContent = `${t("detail.testFailed")}: ${err}`;
+    } finally {
+      testBtn.disabled = false;
+      void startedAt;
     }
-    setBusy(false);
   });
 
   $("#agent-panel-btn").addEventListener("click", () => {
