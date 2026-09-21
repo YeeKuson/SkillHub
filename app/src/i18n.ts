@@ -146,6 +146,30 @@ export function langLabel(): string {
   return currentLang() === "zh" ? "中文" : "EN";
 }
 
+/** 预填/内置资源的双语简介：界面语言切换时联动显示。
+ *  仅覆盖随包分发的资源；第三方 skill/MCP 的描述是作者写的单语言内容，如实显示原文（不联网翻译）。 */
+const DESC_DB: Record<string, { zh: string; en: string }> = {
+  "architecture-first-coding": {
+    zh: "消除 AI 编程中的人机认知分歧。从零写代码：引导 AI 通过提问帮人类把想法表达清楚，边写边对齐认知。接手已有项目：检查确定性并自记，用大白话给人类解释项目，修改时边补约束边保持对齐。",
+    en: "Eliminates the human-AI understanding gap in coding. Greenfield: guides the AI to ask questions that surface your intent, aligning as it writes. Brownfield: audits determinism, explains the project in plain language, and keeps alignment by adding constraints while modifying.",
+  },
+  "skill-mentor": {
+    zh: "评估、审计、诊断、讲解和优化 Agent Skill，并检查 Skill 消费目录的合法性、冲突、断链与安全风险。用户提到快速检测、简单看看、校验、培养、优化、分析、深度审计、全面重构、Skill 评分、Skill 安全、Skill 调试或 Skill 治理时使用。",
+    en: "Evaluates, audits, diagnoses, explains and optimizes Agent Skills, and checks the consumer skill directories for validity, conflicts, broken links and security risks. Use when the user mentions quick checks, validation, mentoring, scoring, security, debugging or governance of skills.",
+  },
+  "html-exhibition": {
+    zh: "把项目、产品、想法、研究成果或复盘内容制作成可直接打开的 HTML 演示网页或现场幻灯片。提到「做演示、项目展示、网页汇报、HTML slides、答辩、路演、翻页笔、演讲者模式」时使用。先理解事实并组织叙事，再按场合选择滚动阅读或逐页演讲、单文件或模块化结构、默认主题或 34 套设计模板。",
+    en: "Turns projects, products, ideas, research or retrospectives into self-contained HTML presentation pages or live slide decks. Use for demos, project showcases, HTML slides, defenses, roadshows, presenter mode. Understands the facts first, then picks scroll vs stage delivery, single-file vs modular structure, and one of 34 design templates.",
+  },
+};
+
+/** 资源简介的双语覆盖：有内置译文按界面语言返回；没有则返回 null（调用方显示数据原文） */
+export function resourceDesc(name: string, fallback: string): string {
+  const entry = DESC_DB[name];
+  if (!entry) return fallback;
+  return entry[currentLang()] || fallback;
+}
+
 /** 下一个切换目标（按钮显示的文案） */
 export function toggleLabel(): string {
   return currentLang() === "zh" ? "EN" : "中文";

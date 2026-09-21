@@ -1,6 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
 import { open } from "@tauri-apps/plugin-dialog";
-import { t, applyI18nStatic, toggleLabel, setLang, currentLang } from "./i18n";
+import { t, applyI18nStatic, toggleLabel, setLang, currentLang, resourceDesc } from "./i18n";
 
 interface AgentInfo {
   id: string;
@@ -272,12 +272,13 @@ function renderDetail(): void {
 
   const key = kind === "plugin" ? (row as PluginRow).id : (row as SkillRow | McpRow).name;
   const desc = kind === "plugin" ? (row as PluginRow).description ?? "" : (row as SkillRow | McpRow).description ?? "";
+  const descShown = kind === "plugin" ? desc : resourceDesc(key, desc);
   $("#detail-mask").style.setProperty("--accent-h", String(accentHue(key)));
-  $("#detail-avatar").textContent = pickEmoji(key, desc);
+  $("#detail-avatar").textContent = pickEmoji(key, descShown);
 
   const titleEl = $("#detail-title");
   titleEl.textContent = key;
-  $("#detail-desc").textContent = desc || "（没有简介）";
+  $("#detail-desc").textContent = descShown || "（没有简介）";
   $("#detail-test").hidden = kind !== "mcp"; // 连通性测试仅对 MCP 有意义
   $("#detail-test-result").hidden = true;
 
@@ -348,12 +349,13 @@ function skillBubble(s: SkillRow, agents: AgentInfo[]): HTMLElement {
   card.tabIndex = 0;
   card.setAttribute("role", "button");
   card.style.setProperty("--accent-h", String(accentHue(s.name)));
+  const descShown = resourceDesc(s.name, s.description);
   card.innerHTML = `
     <div class="bubble-head">
-      <span class="bubble-avatar">${pickEmoji(s.name, s.description)}</span>
-      <span class="bubble-title" title="${esc(s.description)}">${esc(s.name)}</span>
+      <span class="bubble-avatar">${pickEmoji(s.name, descShown)}</span>
+      <span class="bubble-title" title="${esc(descShown)}">${esc(s.name)}</span>
     </div>
-    <div class="bubble-desc">${esc(s.description || "（没有简介）")}</div>
+    <div class="bubble-desc">${esc(descShown || "（没有简介）")}</div>
     <div class="bubble-agents">${agents.map((a) => agentChip("skill", s.name, a.id, s.agents[a.id] ?? "missing")).join("")}</div>`;
   return card;
 }
@@ -367,13 +369,14 @@ function mcpBubble(s: McpRow, agents: AgentInfo[]): HTMLElement {
   card.setAttribute("role", "button");
   card.style.setProperty("--accent-h", String(accentHue(s.name)));
   const target = s.transport === "stdio" ? s.command ?? "" : s.url ?? "";
+  const descShown = resourceDesc(s.name, s.description ?? "");
   card.innerHTML = `
     <div class="bubble-head">
-      <span class="bubble-avatar">${pickEmoji(s.name, s.description ?? "")}</span>
+      <span class="bubble-avatar">${pickEmoji(s.name, descShown || target)}</span>
       <span class="bubble-title" title="${esc(target)}">${esc(s.name)}</span>
       <span class="bubble-badge">${esc(s.transport)}</span>
     </div>
-    <div class="bubble-desc">${esc(s.description || target || "（没有简介）")}</div>
+    <div class="bubble-desc">${esc(descShown || target || "（没有简介）")}</div>
     <div class="bubble-agents">${agents.map((a) => agentChip("mcp", s.name, a.id, s.agents[a.id] ?? "missing")).join("")}</div>`;
   return card;
 }
