@@ -57,3 +57,6 @@ Save-IconPng "D:\ClaudeCode\node_modules\@anthropic-ai\claude-code\bin\claude.ex
 
 # WorkBuddy：exe 嵌入图标
 Save-IconPng "D:\workbuddy\WorkBuddy.exe" (Join-Path $out "workbuddy.png")
+
+# Kimi Code：exe 嵌入图标
+Save-IconPng "D:\Kimi Code\Kimi.exe" (Join-Path $out "kimi.png")

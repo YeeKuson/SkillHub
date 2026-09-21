@@ -64,6 +64,7 @@ const AGENT_META: Record<string, { label: string; logo: string }> = {
   claude: { label: "Claude Code", logo: "/agents/claude.png" },
   codex: { label: "Codex", logo: "/agents/codex.png" },
   workbuddy: { label: "WorkBuddy", logo: "/agents/workbuddy.png" },
+  kimi: { label: "Kimi Code", logo: "/agents/kimi.png" },
   doubao: { label: "豆包", logo: "/agents/doubao.png" },
 };
 

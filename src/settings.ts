@@ -13,12 +13,13 @@ export interface HubSettings {
   agentHome?: Record<string, string>;
 }
 
-export const AGENT_IDS = ['zcode', 'claude', 'codex', 'workbuddy', 'doubao'] as const;
+export const AGENT_IDS = ['zcode', 'claude', 'codex', 'workbuddy', 'kimi', 'doubao'] as const;
 export type AgentId = (typeof AGENT_IDS)[number];
 
-/** 各 agent 默认配置根目录（Windows x86：C 盘用户目录下的点目录；豆包在 AppData） */
+/** 各 agent 默认配置根目录（Windows x86：C 盘用户目录下的点目录；豆包/Kimi 在 AppData） */
 export function defaultAgentHome(id: string): string {
   if (id === 'doubao') return path.join(os.homedir(), 'AppData', 'Local', 'DoubaoWork', 'User Data');
+  if (id === 'kimi') return path.join(os.homedir(), 'AppData', 'Roaming', 'kimi-desktop');
   return path.join(os.homedir(), `.${id}`);
 }
 

@@ -76,6 +76,29 @@ export const AGENTS: AgentAdapter[] = [
   simpleAgent('codex', 'Codex', ['.codex'], ['.codex', 'skills']),
   simpleAgent('workbuddy', 'WorkBuddy', ['.workbuddy'], ['.workbuddy', 'skills']),
   {
+    id: 'kimi',
+    label: 'Kimi Code',
+    // 勘察（2026-09-21）：Kimi desktop 内置 openclaw 网关，自动收集 ~/.agents/skills
+    // （gateway.asar: userAgentsSkillsDir = join(homedir(), ".agents", "skills")）。
+    // 安装探测用 Electron userData 目录（Kimi 启动即创建）。
+    // MCP 由网关托管的 openclaw.json 管理（运行时写回），不做文件级同步——在 Kimi 应用内配置。
+    note: 'skills 经 ~/.agents/skills 共享层分发（内置网关自动收集）；MCP 需在 Kimi 应用内配置',
+    async installed() {
+      // 手动定位（agent locate）可覆盖默认 AppData 探测
+      const r = resolveAgentHome(resolveHubRoot(), 'kimi');
+      return fs.existsSync(r.home);
+    },
+    async skillsRoots() {
+      const root = path.join(os.homedir(), '.agents', 'skills');
+      return fs.existsSync(root) ? [root] : [];
+    },
+    async ensureRoots() {
+      const root = path.join(os.homedir(), '.agents', 'skills');
+      await fsp.mkdir(root, { recursive: true });
+      return [root];
+    },
+  },
+  {
     id: 'doubao',
     label: '豆包 DoubaoWork',
     note: '已验证 .user_skills 会被豆包加载（2026-09-16 人工确认）；MCP/插件不支持文件级同步',
