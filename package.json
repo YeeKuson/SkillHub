@@ -1,0 +1,20 @@
+{
+  "name": "skillhub",
+  "version": "0.1.0",
+  "private": true,
+  "description": "跨 AI agent 的 skill/MCP/插件同步中转台（CLI 内核）",
+  "bin": {
+    "skillhub": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "dependencies": {
+    "yaml": "^2.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.6.3"
+  }
+}

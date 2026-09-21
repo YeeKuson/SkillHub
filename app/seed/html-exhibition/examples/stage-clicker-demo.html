@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN" data-deck-mode="stage">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>HTML Exhibition | Clicker Demo</title>
+  <link rel="stylesheet" href="../assets/runtime/base.css">
+  <link rel="stylesheet" href="../assets/themes/terminal-mint.css">
+  <link rel="stylesheet" href="../assets/runtime/print.css">
+</head>
+<body>
+  <div class="deck-progress" data-deck-progress role="progressbar" aria-label="演示进度"></div>
+  <main data-deck data-deck-mode="stage" aria-label="翻页笔回归演示">
+    <section class="stage-slide is-active" data-slide id="intro" aria-label="第 1 页">
+      <div class="stack">
+        <p class="prompt">clicker ready</p>
+        <h1 class="hero-title">一套运行时，覆盖键盘和翻页笔。</h1>
+        <p class="lede" data-fragment>第一次前进：显示当前页片段。</p>
+        <p class="lede" data-fragment>第二次前进：显示下一个片段。</p>
+      </div>
+    </section>
+    <section class="stage-slide" data-slide id="controls" aria-label="第 2 页">
+      <div class="stack">
+        <p class="eyebrow">02 / Focus guard</p>
+        <h2 class="heading">按钮上的 Space 仍然触发按钮。</h2>
+        <button class="term-nav" id="focus-demo" type="button">按 Space 更新状态</button>
+        <output class="lede" id="focus-status">尚未触发</output>
+      </div>
+    </section>
+    <section class="stage-slide" data-slide id="finish" aria-label="第 3 页">
+      <div class="stack">
+        <p class="eyebrow">03 / Boundary</p>
+        <h2 class="heading">首尾页不循环，状态可预测。</h2>
+        <p class="lede">Home／End 跳转，F 进入全屏，? 打开帮助。</p>
+      </div>
+    </section>
+  </main>
+  <aside class="deck-overlay" data-deck-help hidden aria-hidden="true">下一步：→／↓／PageDown／Space　上一步：←／↑／PageUp／Shift+Space　首尾：Home／End　全屏：F</aside>
+  <output class="deck-overlay" data-key-debug hidden aria-hidden="true"></output>
+  <script src="../assets/runtime/deck-runtime.js"></script>
+  <script>
+    window.ClickerDemoDeck = window.DeckRuntime.create();
+    document.getElementById("focus-demo").addEventListener("click", function () {
+      var count = Number(this.dataset.clickCount || 0) + 1;
+      this.dataset.clickCount = String(count);
+      document.getElementById("focus-status").textContent = "按钮已触发 " + count + " 次，页面未翻动";
+    });
+  </script>
+</body>
+</html>

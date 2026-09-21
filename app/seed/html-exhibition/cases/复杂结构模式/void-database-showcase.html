@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Void Database：把分散材料编译成可调用判断的本地 AI 知识库。">
+  <title>Void Database — 把材料编译成判断</title>
+  <link rel="stylesheet" href="./styles/void-database-theme.css">
+  <link rel="stylesheet" href="./styles/void-database-page.css">
+  <link rel="stylesheet" href="./styles/void-database-motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <div class="progress" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#s1">VOID DATABASE</a>
+    <span class="top-status">LOCAL / FILE-FIRST / AGENT-NATIVE</span>
+  </header>
+
+  <nav class="section-nav" aria-label="章节导航">
+    <a class="nav-dot" href="#s1" aria-label="钩子" aria-current="true"></a>
+    <a class="nav-dot" href="#s2" aria-label="问题"></a>
+    <a class="nav-dot" href="#s3" aria-label="洞察"></a>
+    <a class="nav-dot" href="#s4" aria-label="机制"></a>
+    <a class="nav-dot" href="#s5" aria-label="结果"></a>
+    <a class="nav-dot" href="#s6" aria-label="证据"></a>
+    <a class="nav-dot" href="#s7" aria-label="边界"></a>
+    <a class="nav-dot" href="#s8" aria-label="收束"></a>
+  </nav>
+
+  <main class="page" id="main">
+    <section class="section section-narrow" id="s1" data-section="0">
+      <span class="section-index">00 / HOOK</span>
+      <p class="prompt cursor reveal-item">boot knowledge system</p>
+      <h1 class="hero-title reveal-item">
+        别再把知识<br>
+        <span class="accent">塞进收藏夹。</span>
+      </h1>
+      <p class="lede reveal-item">
+        Void Database 是一个本地 AI 知识库：它不追求存得更多，而是把分散材料编译成今天能用的判断。
+      </p>
+      <div class="scroll-cue">scroll to inspect</div>
+    </section>
+
+    <section class="section" id="s2" data-section="1">
+      <span class="section-index">01 / PROBLEM</span>
+      <div class="grid-2">
+        <div class="stack reveal-item">
+          <p class="eyebrow">没有管制员的知识库</p>
+          <h2 class="heading">资料越多，判断反而越少。</h2>
+          <p class="body-copy">
+            链接被保存、文件被归档、标签不断增加。真正要写文章或做产品时，你仍要从头理解一次。
+          </p>
+          <div class="takeaway">
+            收藏解决了“怕丢”，却没有解决“怎么用”。
+          </div>
+        </div>
+
+        <div class="inbox-scene reveal-item" aria-label="资料不断堆积但没有形成判断的示意图">
+          <div class="inbox-header">
+            <span class="mini-label">INBOX / SAVED</span>
+            <span class="inbox-count">+∞</span>
+          </div>
+          <div class="saved-card">
+            <span class="doc-icon">01</span>
+            <span class="saved-lines"><span class="line"></span><span class="line short"></span></span>
+            <span class="saved-state">saved</span>
+          </div>
+          <div class="saved-card">
+            <span class="doc-icon">02</span>
+            <span class="saved-lines"><span class="line"></span><span class="line short"></span></span>
+            <span class="saved-state">saved</span>
+          </div>
+          <div class="saved-card">
+            <span class="doc-icon">03</span>
+            <span class="saved-lines"><span class="line"></span><span class="line short"></span></span>
+            <span class="saved-state">saved</span>
+          </div>
+          <div class="saved-card">
+            <span class="doc-icon">04</span>
+            <span class="saved-lines"><span class="line"></span><span class="line short"></span></span>
+            <span class="saved-state">saved</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="s3" data-section="2">
+      <span class="section-index">02 / INSIGHT</span>
+      <div class="statement-wrap reveal-item">
+        <p class="eyebrow">关键转折</p>
+        <blockquote class="statement">
+          <span class="statement-mark">01</span>
+          不理解的资料，<br>
+          不应该直接入库。
+        </blockquote>
+        <p class="lede">
+          先讨论，让错误理解停在闸门外；再编译，让被确认的材料进入长期知识。
+        </p>
+        <p class="term-nav">discussion is the gate · compilation is the value</p>
+      </div>
+    </section>
+
+    <section class="section" id="s4" data-section="3">
+      <span class="section-index">03 / MECHANISM</span>
+      <div class="stack">
+        <div class="stack-tight reveal-item">
+          <p class="eyebrow">数据库管制员如何工作</p>
+          <h2 class="heading">一条资料，必须穿过五个状态。</h2>
+          <p class="body-copy">滚到这里才播放。动画中的每一步都对应项目的真实工作流。</p>
+        </div>
+
+        <div class="flow-panel reveal-item">
+          <div class="flow-toolbar">
+            <span class="flow-label">INPUT → DISCUSS → STORE → COMPILE → USE</span>
+            <button class="button replay-flow" type="button">重播流程</button>
+          </div>
+
+          <svg class="flow-stage" viewBox="0 0 960 380" role="img" aria-labelledby="flow-title flow-desc">
+            <title id="flow-title">Void Database 入库与编译流程</title>
+            <desc id="flow-desc">四类输入先进入暂存研讨，确认后分流为原料与笔记，笔记再编译成主题判断，最后服务写作和产品决策。</desc>
+
+            <text class="stage-label" x="36" y="42">01 / INPUT</text>
+            <text class="stage-label" x="282" y="42">02 / DISCUSS</text>
+            <text class="stage-label" x="510" y="42">03 / STORE</text>
+            <text class="stage-label" x="692" y="42">04 / COMPILE</text>
+            <text class="stage-label" x="850" y="42">05 / USE</text>
+
+            <path class="track" d="M170 112 L310 182"></path>
+            <path class="track" d="M170 172 L310 182"></path>
+            <path class="track" d="M170 232 L310 182"></path>
+            <path class="track" d="M170 292 L310 182"></path>
+            <path class="track-accent" d="M420 182 L564 112"></path>
+            <path class="track-accent" d="M420 218 L564 272"></path>
+            <path class="track-accent" d="M636 272 L754 210"></path>
+            <path class="track-accent" d="M812 210 L900 152"></path>
+            <path class="track-accent" d="M812 210 L900 268"></path>
+
+            <g>
+              <rect class="zone" x="36" y="88" width="134" height="46" rx="8"></rect>
+              <text class="node-title" x="52" y="108">代码仓库</text>
+              <text class="node-copy" x="52" y="124">关键文字快照</text>
+            </g>
+            <g>
+              <rect class="zone" x="36" y="148" width="134" height="46" rx="8"></rect>
+              <text class="node-title" x="52" y="168">长文内容</text>
+              <text class="node-copy" x="52" y="184">只读预览优先</text>
+            </g>
+            <g>
+              <rect class="zone" x="36" y="208" width="134" height="46" rx="8"></rect>
+              <text class="node-title" x="52" y="228">社群资料</text>
+              <text class="node-copy" x="52" y="244">授权范围内读取</text>
+            </g>
+            <g>
+              <rect class="zone" x="36" y="268" width="134" height="46" rx="8"></rect>
+              <text class="node-title" x="52" y="288">公开动态</text>
+              <text class="node-copy" x="52" y="304">文字优先抓取</text>
+            </g>
+
+            <g>
+              <rect class="zone-accent" x="310" y="128" width="110" height="108" rx="8"></rect>
+              <text class="node-title" x="328" y="164">暂存研讨</text>
+              <text class="node-copy" x="328" y="186">暴露疑问</text>
+              <text class="node-copy" x="328" y="204">等待确认</text>
+              <text class="node-copy" x="328" y="222">status: discussing</text>
+            </g>
+
+            <g>
+              <rect class="zone" x="564" y="84" width="122" height="62" rx="8"></rect>
+              <text class="node-title" x="582" y="110">原料层</text>
+              <text class="node-copy" x="582" y="130">只读 · 不覆盖</text>
+            </g>
+            <g>
+              <rect class="zone-accent" x="564" y="240" width="122" height="62" rx="8"></rect>
+              <text class="node-title" x="582" y="266">结构化笔记</text>
+              <text class="node-copy" x="582" y="286">判断 · 标签 · 关联</text>
+            </g>
+
+            <g>
+              <rect class="zone-accent" x="754" y="174" width="92" height="72" rx="8"></rect>
+              <text class="node-title" x="772" y="204">主题页</text>
+              <text class="node-copy" x="772" y="224">共识与分歧</text>
+            </g>
+
+            <g>
+              <rect class="zone" x="900" y="126" width="56" height="52" rx="8"></rect>
+              <text class="node-title" x="912" y="148">写作</text>
+              <text class="node-copy" x="912" y="165">选题</text>
+            </g>
+            <g>
+              <rect class="zone" x="900" y="242" width="56" height="52" rx="8"></rect>
+              <text class="node-title" x="912" y="264">产品</text>
+              <text class="node-copy" x="912" y="281">决策</text>
+            </g>
+
+            <circle class="packet packet-in-1" cx="170" cy="112" r="5"></circle>
+            <circle class="packet packet-in-2" cx="170" cy="172" r="5"></circle>
+            <circle class="packet packet-in-3" cx="170" cy="232" r="5"></circle>
+            <circle class="packet packet-in-4" cx="170" cy="292" r="5"></circle>
+            <circle class="pulse-ring gate-pulse" cx="365" cy="182" r="20"></circle>
+            <circle class="packet packet-raw" cx="420" cy="182" r="5"></circle>
+            <circle class="packet packet-note" cx="420" cy="218" r="5"></circle>
+            <circle class="packet packet-compile" cx="636" cy="272" r="5"></circle>
+            <circle class="pulse-ring topic-pulse" cx="800" cy="210" r="20"></circle>
+            <circle class="packet packet-out-1" cx="812" cy="210" r="5"></circle>
+            <circle class="packet packet-out-2" cx="812" cy="210" r="5"></circle>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="s5" data-section="4">
+      <span class="section-index">04 / OUTCOME</span>
+      <div class="stack">
+        <div class="stack-tight reveal-item">
+          <p class="eyebrow">编译，不是摘要</p>
+          <h2 class="heading">多篇材料，最后只留下一个能行动的判断。</h2>
+          <p class="body-copy">四条分散的材料，被重新组织成一条可以继续验证、写作和决策的结论。</p>
+        </div>
+
+        <div class="outcome-grid reveal-item">
+          <div class="fragment-stack stagger">
+            <div class="fragment-card">
+              <span class="fragment-id">source / 01</span>
+              <span>从真实痛点定义第一版</span>
+            </div>
+            <div class="fragment-card">
+              <span class="fragment-id">source / 02</span>
+              <span>先设计资料如何被取用</span>
+            </div>
+            <div class="fragment-card">
+              <span class="fragment-id">source / 03</span>
+              <span>技术只选最小可用组合</span>
+            </div>
+            <div class="fragment-card">
+              <span class="fragment-id">source / 04</span>
+              <span>长期上下文形成差异</span>
+            </div>
+          </div>
+
+          <div class="compile-arrow" aria-hidden="true">→</div>
+
+          <article class="compiled-card">
+            <p class="compiled-kicker">COMPILED / TOPIC</p>
+            <blockquote class="compiled-quote">
+              AI 产品真正稀缺的，不是写代码，而是把问题、数据流和业务判断串成闭环。
+            </blockquote>
+            <p class="note">保留证据、分歧与待验证项，供后续写作和产品决策继续调用。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="s6" data-section="5">
+      <span class="section-index">05 / PROOF</span>
+      <div class="stack">
+        <div class="stack-tight reveal-item">
+          <p class="eyebrow">当前快照</p>
+          <h2 class="heading">它已经从骨架，走到了真实使用。</h2>
+        </div>
+
+        <div class="grid-4 stagger metric-grid">
+          <article class="card metric">
+            <span class="metric-value" data-count="4">0</span>
+            <p class="metric-label">输入适配器</p>
+            <p class="metric-note">覆盖四类常用文字来源</p>
+          </article>
+          <article class="card metric">
+            <span class="metric-value" data-count="62">0</span>
+            <p class="metric-label">原料文件</p>
+            <p class="metric-note">原始内容与加工结果分层</p>
+          </article>
+          <article class="card metric card-accent">
+            <span class="metric-value" data-count="13">0</span>
+            <p class="metric-label">索引知识</p>
+            <p class="metric-note">笔记与主题已可被调用</p>
+          </article>
+          <article class="card metric">
+            <span class="metric-value" data-count="55">0</span>
+            <p class="metric-label">自动化测试</p>
+            <p class="metric-note">当前测试集全部通过</p>
+          </article>
+        </div>
+
+        <p class="note reveal-item">规模不是目标；能否形成可复用判断，才是下一轮验证。</p>
+      </div>
+    </section>
+
+    <section class="section" id="s7" data-section="6">
+      <span class="section-index">06 / BOUNDARY</span>
+      <div class="stack">
+        <div class="stack-tight reveal-item">
+          <p class="eyebrow">克制是一种架构</p>
+          <h2 class="heading">第一版刻意不做“大系统”。</h2>
+        </div>
+
+        <div class="decision-grid stagger">
+          <article class="card decision-card">
+            <p class="mini-label">NOT NOW</p>
+            <h3>砍掉复杂基础设施</h3>
+            <ul class="list">
+              <li>不做数据库与向量库</li>
+              <li>不做 Web UI 与账号系统</li>
+              <li>不做云同步与多人协作</li>
+              <li>不把所有输入自动变成知识</li>
+            </ul>
+          </article>
+
+          <article class="card card-accent decision-card">
+            <p class="mini-label">SO THAT</p>
+            <h3>保住可读与可回退</h3>
+            <ul class="list">
+              <li>Markdown 人和 AI 都能直接读</li>
+              <li>原料只读，错误不会污染事实层</li>
+              <li>Git diff 让每次变化可追溯</li>
+              <li>脚本做机械活，Agent 做语义判断</li>
+            </ul>
+          </article>
+        </div>
+
+        <p class="boundary reveal-item">
+          当前边界：语义编译仍依赖 Agent，长期自用价值和产品化路径仍需继续验证。
+        </p>
+      </div>
+    </section>
+
+    <section class="section section-narrow" id="s8" data-section="7">
+      <span class="section-index">07 / TAKEAWAY</span>
+      <p class="prompt cursor reveal-item">final synthesis</p>
+      <h2 class="title reveal-item">
+        知识库的价值，<br>
+        不是记得更多。
+      </h2>
+      <div class="takeaway reveal-item">
+        而是让过去的材料，参与今天的判断。
+      </div>
+      <div class="closing-actions reveal-item">
+        <a class="term-nav" href="#s4">replay: how knowledge compiles</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="./scripts/void-database-concept-animation.js"></script>
+  <script src="./scripts/void-database-main.js"></script>
+</body>
+</html>

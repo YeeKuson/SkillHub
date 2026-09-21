@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Project Showcase</title>
+  <link rel="stylesheet" href="./styles/theme.css">
+  <link rel="stylesheet" href="./styles/page.css">
+  <link rel="stylesheet" href="./styles/motion.css">
+</head>
+<body>
+  <div class="deck-progress" data-deck-progress role="progressbar" aria-label="演示进度"></div>
+  <main class="page" id="main" data-deck data-deck-mode="scroll">
+    <!-- SLIDES:START -->
+    <section class="section section-narrow is-active" data-section data-slide id="slide-01">
+      <p class="prompt cursor">project showcase</p>
+      <h1 class="hero-title reveal-item">用一句话说清楚项目的核心价值。</h1>
+      <p class="lede reveal-item">这里放支撑核心判断的最短说明。</p>
+    </section>
+
+    <section class="section" data-section data-slide id="slide-02">
+      <div class="stack">
+        <p class="eyebrow">01 / Mechanism</p>
+        <h2 class="heading reveal-item">用概念动画演示项目真实机制。</h2>
+        <div class="concept-stage reveal-item" data-concept-stage>
+          <span class="concept-node">INPUT</span>
+          <span class="concept-packet" aria-hidden="true"></span>
+          <span class="concept-node">OUTPUT</span>
+        </div>
+        <button class="term-nav" type="button" data-replay>重播流程</button>
+      </div>
+    </section>
+    <!-- SLIDES:END -->
+  </main>
+  <aside class="deck-overlay" data-deck-help hidden aria-hidden="true">
+    下一步：→／↓／PageDown／Space　上一步：←／↑／PageUp／Shift+Space　首尾：Home／End　全屏：F
+  </aside>
+  <output class="deck-overlay" data-key-debug hidden aria-hidden="true"></output>
+  <script src="./scripts/concept-animation.js"></script>
+  <script src="./scripts/deck-runtime.js"></script>
+  <script src="./scripts/main.js"></script>
+</body>
+</html>

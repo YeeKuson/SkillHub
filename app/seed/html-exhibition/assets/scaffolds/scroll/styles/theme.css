@@ -1,0 +1,5 @@
+/*
+ * 仓库内预览桥接。
+ * assemble_deck.py 会递归内联这些本地 import，确保正式输出可移植。
+ */
+@import "../../../theme.css";

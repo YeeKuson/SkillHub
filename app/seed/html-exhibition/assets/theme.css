@@ -1,0 +1,322 @@
+/*
+ * theme.css - 深色极客叙事系统
+ *
+ * 目标：
+ * - 极客品牌：终端提示符、精确字阶、克制表面。
+ * - 左对齐叙事流：每个 section 从一个明确判断开始。
+ * - 深色科技调：唯一薄荷绿主色 #38f9d7，不使用紫色渐变。
+ * - 只保留四级字号：大标题 / 中标题 / 正文 / 注释。
+ * - 间距只使用下方声明的 8 倍数体系。
+ */
+
+@import "./runtime/base.css";
+
+:root {
+  --bg-0: #05080c;
+  --bg-1: #091119;
+  --bg-2: #0f1a22;
+  --border: rgba(238, 248, 246, 0.11);
+
+  --text-title: rgba(238, 248, 246, 0.96);
+  --text-subtitle: rgba(238, 248, 246, 0.74);
+  --text-body: rgba(238, 248, 246, 0.58);
+  --text-note: rgba(238, 248, 246, 0.42);
+
+  --accent: #38f9d7;
+  --accent-rgb: 56, 249, 215;
+
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-sans: "Space Grotesk", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+
+  --fs-hero: 64px;
+  --fs-heading: 28px;
+  --fs-body: 17px;
+  --fs-note: 14px;
+
+  --space-0-5: 4px;
+  --space-1: 8px;
+  --space-1-5: 12px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-6: 48px;
+  --space-8: 64px;
+  --space-12: 96px;
+  --space-16: 128px;
+
+  --radius: 8px;
+  --border-w: 1px;
+  --measure: 1120px;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --fs-hero: 48px;
+    --fs-heading: 24px;
+    --fs-body: 16px;
+    --fs-note: 13px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg-0);
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-0) 44%, var(--bg-0) 100%);
+  color: var(--text-body);
+  font-size: var(--fs-body);
+  line-height: 1.65;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+strong {
+  color: var(--text-title);
+  font-weight: 600;
+}
+
+::selection {
+  background: rgba(var(--accent-rgb), 0.22);
+  color: var(--text-title);
+}
+
+.page {
+  width: min(100%, var(--measure));
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-4) var(--space-16);
+}
+
+.section {
+  min-height: 78vh;
+  padding: var(--space-12) 0;
+  display: grid;
+  align-content: center;
+  gap: var(--space-4);
+}
+
+.section + .section {
+  border-top: var(--border-w) solid var(--border);
+}
+
+.section-narrow {
+  max-width: 760px;
+}
+
+.eyebrow,
+.prompt,
+.term-nav {
+  font-family: var(--font-mono);
+  font-size: var(--fs-note);
+  line-height: 1.55;
+  color: var(--text-note);
+}
+
+.prompt::before,
+.term-nav::before {
+  content: "> ";
+  color: var(--accent);
+}
+
+.hero-title,
+.title {
+  margin: 0;
+  color: var(--text-title);
+  font-family: var(--font-sans);
+  font-size: var(--fs-hero);
+  line-height: 1.08;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.heading {
+  margin: 0;
+  color: var(--text-title);
+  font-family: var(--font-sans);
+  font-size: var(--fs-heading);
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.lede {
+  max-width: 760px;
+  margin: 0;
+  color: var(--text-subtitle);
+  font-size: var(--fs-body);
+}
+
+.body-copy {
+  max-width: 720px;
+  margin: 0;
+  color: var(--text-body);
+}
+
+.note,
+.muted,
+.faint {
+  margin: 0;
+  color: var(--text-note);
+  font-size: var(--fs-note);
+}
+
+.stack {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.stack-tight {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.grid-2,
+.cols-2 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.82fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.grid-3,
+.cols-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.card {
+  background: var(--bg-2);
+  border: var(--border-w) solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+}
+
+.card-accent {
+  border-color: rgba(var(--accent-rgb), 0.32);
+  background: rgba(var(--accent-rgb), 0.06);
+}
+
+.takeaway {
+  max-width: 760px;
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-w) solid rgba(var(--accent-rgb), 0.32);
+  border-radius: var(--radius);
+  background: rgba(var(--accent-rgb), 0.08);
+  color: var(--text-subtitle);
+}
+
+.term-nav {
+  width: fit-content;
+  padding: var(--space-1) var(--space-2);
+  border: var(--border-w) solid rgba(var(--accent-rgb), 0.2);
+  border-radius: var(--radius);
+  background: rgba(var(--accent-rgb), 0.06);
+}
+
+.metric {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.metric-value {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--fs-heading);
+  line-height: 1;
+  font-weight: 700;
+}
+
+.rail {
+  display: grid;
+  gap: var(--space-2);
+  padding-left: var(--space-3);
+  border-left: var(--border-w) solid rgba(var(--accent-rgb), 0.28);
+}
+
+.list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list li {
+  position: relative;
+  padding-left: var(--space-3);
+  color: var(--text-body);
+}
+
+.list li::before {
+  content: "";
+  position: absolute;
+  top: 0.8em;
+  left: 0;
+  width: 8px;
+  height: 1px;
+  background: var(--accent);
+}
+
+pre,
+code {
+  font-family: var(--font-mono);
+}
+
+code {
+  color: var(--text-subtitle);
+  background: var(--bg-2);
+  border: var(--border-w) solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-0-5) var(--space-1);
+}
+
+pre {
+  margin: 0;
+  padding: var(--space-3);
+  overflow: auto;
+  color: var(--text-subtitle);
+  background: var(--bg-2);
+  border: var(--border-w) solid var(--border);
+  border-radius: var(--radius);
+  font-size: var(--fs-note);
+  line-height: 1.65;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+@media (max-width: 860px) {
+  .page {
+    padding: var(--space-6) var(--space-3) var(--space-12);
+  }
+
+  .section {
+    min-height: auto;
+    padding: var(--space-8) 0;
+  }
+
+  .grid-2,
+  .cols-2,
+  .grid-3,
+  .cols-3 {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+}

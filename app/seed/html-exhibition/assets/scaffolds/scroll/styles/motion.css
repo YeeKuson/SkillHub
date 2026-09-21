@@ -1,0 +1,56 @@
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-base: 0.45s;
+}
+
+.reveal-item {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.reveal-item.in-view {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    opacity var(--dur-base) var(--ease-soft);
+}
+
+.concept-stage.is-playing .concept-packet {
+  animation: concept-pass 1.2s var(--ease-out) both;
+}
+
+@keyframes concept-pass {
+  0% {
+    opacity: 0;
+    transform: translateX(0) scale(0.7);
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(100%) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .reveal-item {
+    opacity: 1;
+    transform: none;
+  }
+}

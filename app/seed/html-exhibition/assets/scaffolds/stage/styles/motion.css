@@ -1,0 +1,12 @@
+.concept-stage.is-playing .concept-packet { animation: concept-pass 1.2s var(--deck-ease) both; }
+
+@keyframes concept-pass {
+  0% { opacity: 0; transform: translateX(0) scale(.7); }
+  20%, 80% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(100%) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .concept-packet { opacity: 1; transform: translateX(50%) scale(1); }
+}

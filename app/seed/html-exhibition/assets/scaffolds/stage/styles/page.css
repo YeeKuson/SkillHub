@@ -1,0 +1,28 @@
+.concept-stage {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 240px;
+  padding: var(--space-4);
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.concept-node {
+  padding: var(--space-2);
+  color: var(--text-subtitle);
+  border: 1px solid rgba(var(--accent-rgb), .24);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+}
+
+.concept-packet {
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translateX(0) scale(.7);
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "HTML Exhibition"
+  short_description: "生成支持滚动、现场翻页、翻页笔和模板选择的 HTML 演示"
+  default_prompt: "Use $html-exhibition 把我的项目整理成可直接打开并经过验证的 HTML 演示。"

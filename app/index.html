@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkillHub</title>
+    <script type="module" src="/src/main.ts" defer></script>
+  </head>
+
+  <body>
+    <div id="busy-bar" aria-hidden="true"></div>
+    <main class="container">
+      <header style="--i: 0">
+        <h1>SkillHub <span class="beta-badge">beta v0.1</span> <span class="sub" data-i18n="app.sub">扩展资源中转台</span> <button id="lang-toggle" type="button" class="mini" title="中文 / English">EN</button></h1>
+        <div class="hub-line">
+          中心库：<span id="hub-path" class="muted">加载中…</span>
+          <button id="agent-panel-btn" type="button" data-i18n="btn.agentPanel">Agent 管理</button>
+          <button id="refresh" type="button" data-i18n="btn.refresh">刷新</button>
+        </div>
+      </header>
+
+      <nav class="tabs" style="--i: 1" role="tablist" aria-label="资源类型">
+        <button class="tab active" data-tab="skills" role="tab" aria-selected="true" data-i18n="tab.skills">Skills</button>
+        <button class="tab" data-tab="mcp" role="tab" aria-selected="false" data-i18n="tab.mcp">MCP</button>
+        <!-- 插件各 agent 安装机制无法通解（仅 claude 全自动），功能暂隐藏；CLI 的 plugin 命令组保留 -->
+        <button class="tab" data-tab="plugins" role="tab" aria-selected="false" hidden data-i18n="tab.plugins">插件</button>
+      </nav>
+
+      <div id="no-agent-banner" class="note-bar hidden" data-i18n="banner.noAgent"></div>
+      <section class="tab-pane" id="pane-skills" style="--i: 2">
+        <div class="card add-card">
+          <form id="add-form">
+            <input
+              id="add-input"
+              type="text"
+              placeholder="粘贴 GitHub/Gitee 链接，或本地文件夹 / zip 压缩包路径，回车添加入库" data-i18n-ph="ph.addInput"
+            />
+            <label class="chk"><input id="add-all" type="checkbox" /><span data-i18n="chk.addAll">多 skill 全部入库</span></label>
+            <button type="button" id="pick-zip" data-i18n="btn.pickZip">选择 zip…</button>
+            <button type="submit" data-i18n="btn.add">添加</button>
+            <span class="help-dot" id="import-help-btn" tabindex="0" role="button" aria-label="导入规则说明">!</span>
+          </form>
+        </div>
+
+        <div id="skill-cards" class="bubble-grid"></div>
+
+        <div class="card" id="foreign-card-skills" hidden>
+          <h2 data-i18n="foreign.skills.title">未入库的 skill</h2>
+          <div id="foreign" class="foreign"></div>
+        </div>
+      </section>
+
+      <section class="tab-pane hidden" id="pane-mcp" style="--i: 2">
+        <div class="note-bar"><b data-i18n="mcp.note.title">提示</b><span data-i18n-html="mcp.note.body"></span></div>
+        <div class="card add-card">
+          <form id="mcp-add-form">
+            <textarea id="mcp-paste" rows="3" data-i18n-ph="ph.mcpPaste"></textarea>
+            <div class="mcp-add-row">
+              <input id="mcp-name" type="text" placeholder="名称（URL 导入时可选）" data-i18n-ph="ph.mcpName" />
+              <button type="submit" data-i18n="btn.mcpAdd">识别并添加</button>
+            </div>
+            <p class="legend" data-i18n-html="legend.mcpAdd"></p>
+          </form>
+        </div>
+
+        <div id="mcp-cards" class="bubble-grid"></div>
+
+        <div class="card" id="foreign-card-mcp" hidden>
+          <h2 data-i18n="foreign.mcp.title">未入库的 MCP</h2>
+          <div id="mcp-foreign" class="foreign"></div>
+        </div>
+      </section>
+
+      <section class="tab-pane hidden" id="pane-plugins" style="--i: 2">
+        <div id="plugin-cards" class="bubble-grid"></div>
+        <div class="card" id="foreign-card-plugins" hidden>
+          <h2>未入库的插件</h2>
+          <div id="plugin-foreign" class="foreign"></div>
+        </div>
+      </section>
+
+      <div class="card" style="--i: 3">
+        <details id="log-details">
+          <summary data-i18n="log.title">日志</summary>
+          <pre id="log" class="log" aria-live="polite"></pre>
+        </details>
+      </div>
+    </main>
+
+    <!-- Agent 管理面板：识别状态 + 手动定位 -->
+    <div id="agent-panel" class="agent-panel hidden" role="dialog" aria-label="Agent 管理">
+      <div class="ap-head">
+        <b data-i18n="agents.title">Agent 管理</b>
+        <span class="muted" data-i18n="agents.hint"></span>
+        <button id="agent-panel-refresh" type="button" class="mini" data-i18n="btn.panelRefresh">刷新</button>
+      </div>
+      <div id="agent-panel-body"></div>
+    </div>
+
+    <!-- 资源详情浮层：气泡放大 + 背景模糊 -->
+    <div id="detail-mask" class="detail-mask hidden">
+      <div class="detail-bubble" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+        <button class="detail-close" id="detail-close" type="button" aria-label="关闭详情">×</button>
+        <div class="detail-head">
+          <span id="detail-avatar" class="bubble-avatar" aria-hidden="true"></span>
+          <span id="detail-title" class="detail-title"></span>
+        </div>
+        <p id="detail-desc" class="detail-desc"></p>
+        <div id="detail-server" class="detail-server" hidden></div>
+        <div id="detail-extra" class="detail-extra"></div>
+        <div id="detail-fields" class="detail-fields"></div>
+        <h4 class="detail-sub">各 agent 开关</h4>
+        <div id="detail-agents" class="detail-agents"></div>
+        <div id="detail-test-result" class="test-result" hidden></div>
+        <div class="detail-actions">
+          <button id="detail-test" type="button" data-i18n="detail.test">测试连接</button>
+          <button id="detail-delete" type="button" class="danger" data-i18n="detail.delete">删除该资源…</button>
+        </div>
+        <p class="legend" data-i18n="detail.mcpNote"></p>
+      </div>
+    </div>
+
+    <!-- 导入规则说明：挂 body 层保证最顶层显示，位置由 JS 按感叹号计算 -->
+    <div class="help-pop hidden" id="import-help-pop" role="note">
+      <h4 data-i18n="help.title">导入规则</h4>
+      <ol>
+<li data-i18n-html="help.li1"></li>
+<li data-i18n-html="help.li2"></li>
+<li data-i18n-html="help.li3"></li>
+<li data-i18n-html="help.li4"></li>
+</ol>
+    </div>
+
+    <!-- agent 勾选弹层（同步/删除确认） -->
+    <div id="modal-mask" class="modal-mask hidden">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <h3 id="modal-title"></h3>
+        <div id="modal-body"></div>
+        <div class="modal-actions">
+          <button id="modal-cancel" type="button" data-i18n="modal.cancel">取消</button>
+          <button id="modal-ok" type="button" class="primary" data-i18n="modal.ok">确定</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

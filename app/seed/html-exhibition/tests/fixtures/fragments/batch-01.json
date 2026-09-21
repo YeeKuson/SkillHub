@@ -1,0 +1,16 @@
+{
+  "slides": [
+    {
+      "id": "slide-01",
+      "html": "<section class=\"stage-slide is-active\" data-slide id=\"slide-01\" aria-label=\"第 1 页\"><div class=\"stack\"><p class=\"prompt\">runtime check</p><h1 class=\"hero-title\">翻页笔运行时回归</h1><p class=\"lede\" data-fragment>第一次前进显示片段。</p></div></section>",
+      "css": "",
+      "js": ""
+    },
+    {
+      "id": "slide-02",
+      "html": "<section class=\"stage-slide\" data-slide id=\"slide-02\" aria-label=\"第 2 页\"><div class=\"stack\"><p class=\"eyebrow\">02 / Verify</p><h2 class=\"heading\">第二次前进切换页面。</h2><button class=\"term-nav\" type=\"button\">按钮保留 Space 点击</button></div></section>",
+      "css": "",
+      "js": ""
+    }
+  ]
+}

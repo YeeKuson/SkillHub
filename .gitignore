@@ -1,0 +1,24 @@
+# 依赖与构建产物
+node_modules/
+dist/
+build/
+
+# 环境与密钥
+.env*
+
+# AI 本地配置
+.mimosa/
+.zcode/
+.claude/
+.agents/
+
+# 系统与编辑器
+Thumbs.db
+Desktop.ini
+.DS_Store
+.vscode/
+.idea/
+
+# 非目标平台图标生成物（本项目仅 Windows 桌面）
+app/src-tauri/icons/android/
+app/src-tauri/icons/ios/

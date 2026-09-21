@@ -1,0 +1,20 @@
+@media print {
+  @page { size: 16in 9in; margin: 0; }
+
+  [data-deck-mode="stage"] {
+    width: auto;
+    height: auto;
+    overflow: visible;
+  }
+
+  [data-deck-mode="stage"] [data-slide] {
+    position: relative;
+    display: grid !important;
+    width: 16in;
+    height: 9in;
+    break-after: page;
+  }
+
+  [data-fragment] { opacity: 1 !important; transform: none !important; }
+  .deck-progress, .deck-overlay { display: none !important; }
+}

@@ -1,0 +1,3 @@
+/* 仓库预览桥接；assemble_deck.py 会在正式输出中递归内联本地 import。 */
+@import "../../../runtime/base.css";
+@import "../../../themes/terminal-mint.css";

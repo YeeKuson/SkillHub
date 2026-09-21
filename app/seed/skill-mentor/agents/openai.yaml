@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Mentor｜Skill 质量评估与优化专家"
+  short_description: "审计、评分、诊断并安全优化 Agent Skill"
+  default_prompt: "使用 $skill-mentor 对指定 Skill 做完整审计，并给出带证据锚点的改进建议。"

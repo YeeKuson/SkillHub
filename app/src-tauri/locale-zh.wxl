@@ -1,0 +1,8 @@
+<WixLocalization Culture="zh-cn" Language="2052" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="TauriLanguage">2052</String>
+  <String Id="TauriCodepage">936</String>
+  <String Id="LaunchApp">启动 SkillHub</String>
+  <String Id="DowngradeErrorMessage">已安装更新版本的 SkillHub，无法降级安装。</String>
+  <String Id="PathEnvVarFeature">将 SkillHub 可执行文件所在目录加入系统 PATH 环境变量，以便在任意位置调用。</String>
+  <String Id="InstallAppFeature">安装 SkillHub。</String>
+</WixLocalization>
